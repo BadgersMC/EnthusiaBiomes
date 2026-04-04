@@ -1,0 +1,71 @@
+name: EnthusiaBiomes
+version: 1.0.0
+main: net.lumalyte.custombiomes.EnthusiaBiomesPlugin
+api-version: 1.21
+load: STARTUP
+author: Enthusia Network
+description: Create unlimited custom biomes with configurable colors via YAML
+website: https://enthusia.info
+loadbefore: [WorldEdit, FastAsyncWorldEdit, FAWE]
+
+commands:
+  setbiome:
+    description: Set the biome of chunks around you
+    usage: /setbiome <biome_id> [radius]
+    permission: custombiomes.setbiome
+    aliases: [biome, cb]
+
+  listbiomes:
+    description: List all available custom biomes
+    usage: /listbiomes
+    permission: custombiomes.list
+    aliases: [biomes, cblist]
+
+  reloadbiomes:
+    description: Reload the plugin configuration
+    usage: /reloadbiomes
+    permission: custombiomes.reload
+    aliases: [cbreload]
+
+  checkbiomes:
+    description: Check if biomes are in Bukkit registry (debug)
+    usage: /checkbiomes
+    permission: custombiomes.check
+    aliases: [cbcheck]
+
+  biomecycle:
+    description: Control automatic biome cycling
+    usage: /biomecycle [start|stop|skip|status]
+    permission: custombiomes.cycle
+    aliases: [cycle, cbcycle]
+
+permissions:
+  custombiomes.*:
+    description: Grants access to all Custom Biomes commands
+    default: op
+    children:
+      custombiomes.setbiome: true
+      custombiomes.list: true
+      custombiomes.reload: true
+      custombiomes.check: true
+      custombiomes.cycle: true
+
+  custombiomes.setbiome:
+    description: Allows setting chunk biomes
+    default: op
+
+  custombiomes.list:
+    description: Allows listing available biomes
+    default: true
+
+  custombiomes.reload:
+    description: Allows reloading the plugin
+    default: op
+
+  custombiomes.check:
+    description: Allows checking biome registry status
+    default: op
+
+  custombiomes.cycle:
+    description: Allows controlling biome cycling
+    default: op

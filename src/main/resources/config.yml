@@ -1,0 +1,153 @@
+# Custom Biomes Plugin Configuration
+# Create unlimited custom biomes by defining colors in hex format
+# Leave any color field empty ("") to use Minecraft's default
+
+# Example biomes with different aesthetic themes
+biomes:
+  vice_city_sunset:
+    name: "Vice City Sunset"
+    # That iconic Florida/Miami sunset vibe - blue to purple to orange gradient
+    fog_color: "FF6B35"        # Orange fog for sunset atmosphere
+    water_color: "1B9AAA"      # Deep teal ocean water
+    water_fog_color: "2A6F97"  # Darker underwater fog
+    sky_color: "E85D75"        # Pink-purple sunset sky
+    foliage_color: "2D6A4F"    # Tropical green palm leaves
+    grass_color: "52B788"      # Vibrant tropical grass
+    temperature: 0.9           # Hot climate
+    rainfall: 0.7              # Moderate rain
+
+  neon_cyberpunk:
+    name: "Neon Cyberpunk"
+    # Bright neon aesthetic with pink and cyan
+    fog_color: "FF006E"        # Hot pink fog
+    water_color: "06FFF0"      # Bright cyan water
+    water_fog_color: "4CC9F0"  # Light cyan underwater
+    sky_color: "7209B7"        # Deep purple sky
+    foliage_color: "F72585"    # Hot pink leaves
+    grass_color: "4361EE"      # Electric blue grass
+    temperature: 0.8
+    rainfall: 0.4
+
+  ocean_paradise:
+    name: "Ocean Paradise"
+    # Crystal clear tropical waters
+    fog_color: "A8DADC"        # Light misty blue
+    water_color: "1D3557"      # Deep clear ocean
+    water_fog_color: "457B9D"  # Bright underwater visibility
+    sky_color: "A8DADC"        # Clear tropical sky
+    foliage_color: "2A9D8F"    # Vibrant tropical foliage
+    grass_color: "52B788"      # Lush green grass
+    temperature: 0.95
+    rainfall: 0.9
+
+  mystic_forest:
+    name: "Mystic Forest"
+    # Purple and blue magical forest
+    fog_color: "5A189A"        # Deep purple fog
+    water_color: "3C096C"      # Dark purple water
+    water_fog_color: "240046"  # Very dark purple underwater
+    sky_color: "7209B7"        # Purple sky
+    foliage_color: "4361EE"    # Blue-purple leaves
+    grass_color: "4895EF"      # Light blue grass
+    temperature: 0.5
+    rainfall: 0.8
+
+  desert_oasis:
+    name: "Desert Oasis"
+    # Warm golden desert with oasis water
+    fog_color: "F77F00"        # Orange-gold fog
+    water_color: "06AED5"      # Bright oasis water
+    water_fog_color: "0FA3B1"  # Clear oasis underwater
+    sky_color: "FFB703"        # Golden sky
+    foliage_color: "2A9D8F"    # Green oasis plants
+    grass_color: "99D98C"      # Light desert grass
+    temperature: 1.2
+    rainfall: 0.1
+
+  cherry_blossom:
+    name: "Cherry Blossom"
+    # Soft pink and white Japanese aesthetic
+    fog_color: "FFC8DD"        # Soft pink fog
+    water_color: "A2D2FF"      # Light blue water
+    water_fog_color: "BDE0FE"  # Pale blue underwater
+    sky_color: "CDB4DB"        # Lavender sky
+    foliage_color: "FFB3D9"    # Pink cherry blossoms
+    grass_color: "B5E48C"      # Fresh spring grass
+    temperature: 0.6
+    rainfall: 0.7
+
+  volcanic_wasteland:
+    name: "Volcanic Wasteland"
+    # Dark volcanic landscape with lava glow
+    fog_color: "641220"        # Dark red fog
+    water_color: "6A040F"      # Blood red water
+    water_fog_color: "370617"  # Very dark red underwater
+    sky_color: "9D0208"        # Dark crimson sky
+    foliage_color: "DC2F02"    # Orange-red dead plants
+    grass_color: "E85D04"      # Burnt orange grass
+    temperature: 1.5
+    rainfall: 0.0
+
+  arctic_aurora:
+    name: "Arctic Aurora"
+    # Icy landscape with aurora colors
+    fog_color: "D0F4EA"        # Pale icy fog
+    water_color: "006D77"      # Deep arctic water
+    water_fog_color: "003844"  # Dark icy underwater
+    sky_color: "4ECDC4"        # Teal aurora sky
+    foliage_color: "95E1D3"    # Icy mint foliage
+    grass_color: "38A3A5"      # Cold teal grass
+    temperature: -0.5
+    rainfall: 0.3
+
+# Configuration options
+settings:
+  # Biome namespace - appears as "namespace:biome_id" in-game (e.g., "myserver:vice_city_sunset")
+  # Use your server name or brand for custom identification
+  # Must be lowercase, no spaces (use underscores instead)
+  namespace: "enthusia"
+
+  # Enable debug logging for biome registration
+  debug: false
+
+  # Automatically register biomes on server start
+  auto_register: true
+
+  # Apply biomes to world generation (requires compatible world generator)
+  # Set to false if you only want to use /setbiome commands
+  affect_generation: false
+
+# Automatic biome cycling for hub worlds
+# Smoothly transitions between different biomes on a timer
+biome_cycling:
+  # Enable automatic biome cycling
+  enabled: false
+
+  # Target world to apply cycling to
+  world: "world"
+
+  # Time between biome changes (in minutes)
+  interval_minutes: 10
+
+  # List of biomes to cycle through (must be valid biome IDs from above)
+  # The plugin will transition through these in order, then loop back to the start
+  biome_cycle:
+    - vice_city_sunset
+    - neon_cyberpunk
+    - ocean_paradise
+    - mystic_forest
+    - desert_oasis
+    - cherry_blossom
+    - volcanic_wasteland
+    - arctic_aurora
+
+  # Only apply to loaded chunks (recommended for performance)
+  # If false, will attempt to apply to all chunks (very slow, not recommended)
+  only_loaded_chunks: true
+
+  # Announce biome changes to players in the world
+  announce_changes: true
+
+  # Message sent to players when biome changes
+  # Use {biome} placeholder for the biome name
+  change_message: "§7The world atmosphere shifts to §e{biome}§7..."
