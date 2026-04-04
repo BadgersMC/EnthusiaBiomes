@@ -1,6 +1,6 @@
 # EnthusiaBiomes
 
-![EnthusiaBiomes Hub Preview](images/hub-preview.png)
+![EnthusiaBiomes Hub Preview](images/hub.png)
 *Screenshot from the hub on `play.enthusia.info`*
 
 A powerful Paper plugin for creating **unlimited custom biomes** with unique colors through simple YAML configuration. No coding required!
