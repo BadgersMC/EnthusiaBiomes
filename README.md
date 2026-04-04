@@ -13,7 +13,7 @@ A powerful Paper plugin for creating **unlimited custom biomes** with unique col
 - **Biome Cycling** - Automatically rotate biomes on a timer for hub worlds
 - **Pre-built Themes** - Vice City Sunset, Neon Cyberpunk, Ocean Paradise, Cherry Blossom, and more
 - **Easy Commands** - Simple commands to apply biomes to chunks with configurable radius
-- **WorldEdit Compatible** - Custom biomes appear in WorldEdit/FAWE biome lists
+- **WorldEdit Compatible** - All biomes are registered to the server's biome registry, making them fully available with WorldEdit/FAWE tools like `//setbiome`, `//brush biome`, and more
 
 ## Requirements
 
