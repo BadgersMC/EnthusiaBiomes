@@ -195,27 +195,15 @@ public class BiomeCommand implements CommandExecutor, TabCompleter {
                 for (int cx = 0; cx < 16; cx += 4) {
                     for (int cz = 0; cz < 16; cz += 4) {
                         for (int cy = world.getMinHeight(); cy < world.getMaxHeight(); cy += 4) {
-                            nmsChunk.setBiome(cx / 4, cy / 4, cz / 4, biomeHolder);
+                            nmsChunk.getSection(nmsChunk.getSectionIndex(cy))
+                                    .setNoiseBiome(cx / 4, (cy / 4) & 3, cz / 4, biomeHolder);
                         }
                     }
                 }
 
-                // CRITICAL: Mark chunk as modified so it saves
-                // Use reflection because method name may vary between versions
-                try {
-                    // Try setUnsaved (common name)
-                    var setUnsavedMethod = nmsChunk.getClass().getMethod("setUnsaved", boolean.class);
-                    setUnsavedMethod.invoke(nmsChunk, true);
-                } catch (NoSuchMethodException e) {
-                    // Method doesn't exist, chunk should auto-save anyway
-                }
-
-                // Force save the chunk to disk
-                try {
-                    chunk.getWorld().save();
-                } catch (Exception e) {
-                    // Saving failed, log but continue
-                }
+                // Paper 26.2 requires an explicit dirty marker for biome-only edits.
+                // Save once after the batch, not once per chunk.
+                nmsChunk.markUnsaved();
 
                 // Send chunk update to all players
                 world.refreshChunk(chunk.getX(), chunk.getZ());

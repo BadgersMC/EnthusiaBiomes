@@ -83,18 +83,14 @@ public class BiomeCycleApplicator {
         for (int cx = 0; cx < 16; cx += 4) {
             for (int cz = 0; cz < 16; cz += 4) {
                 for (int cy = world.getMinHeight(); cy < world.getMaxHeight(); cy += 4) {
-                    nmsChunk.setBiome(cx / 4, cy / 4, cz / 4, biomeHolder);
+                    nmsChunk.getSection(nmsChunk.getSectionIndex(cy))
+                            .setNoiseBiome(cx / 4, (cy / 4) & 3, cz / 4, biomeHolder);
                 }
             }
         }
 
-        // Mark chunk as modified so it saves (use reflection for version compatibility)
-        try {
-            var setUnsavedMethod = nmsChunk.getClass().getMethod("setUnsaved", boolean.class);
-            setUnsavedMethod.invoke(nmsChunk, true);
-        } catch (NoSuchMethodException e) {
-            // Method doesn't exist, chunk should auto-save anyway
-        }
+        // Biome-only edits must be persisted by the normal chunk saver.
+        nmsChunk.markUnsaved();
 
         // Refresh chunk for players to see changes immediately
         world.refreshChunk(chunk.getX(), chunk.getZ());

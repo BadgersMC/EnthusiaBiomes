@@ -1,7 +1,7 @@
 name: EnthusiaBiomes
-version: 1.0.0
+version: ${version}
 main: net.lumalyte.custombiomes.EnthusiaBiomesPlugin
-api-version: 1.21
+api-version: '26.2'
 load: STARTUP
 author: Enthusia Network
 description: Create unlimited custom biomes with configurable colors via YAML
