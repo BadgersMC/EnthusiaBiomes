@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 /**
  * Handles registration of custom biomes to Minecraft's biome registry
- * Version: 1.21.11 using paperweight (based on TerraformGenerator approach)
+ * Version: Paper 26.2 using Mojang mappings.
  */
 public class CustomBiomeHandler {
     private final JavaPlugin plugin;
@@ -48,16 +48,20 @@ public class CustomBiomeHandler {
      */
     public void registerAllBiomes() {
         logger.info("Registering custom biomes to Minecraft...");
-
+        WritableRegistry<Biome> registryWritable = null;
+        java.lang.reflect.Field frozenState = null;
+        boolean wasFrozen = true;
         try {
             CraftServer craftServer = (CraftServer) Bukkit.getServer();
             DedicatedServer dedicatedServer = craftServer.getServer();
-            WritableRegistry<Biome> registryWritable = (WritableRegistry<Biome>) getBiomeRegistry();
+            registryWritable = (WritableRegistry<Biome>) getBiomeRegistry();
 
             // Unfreeze the registry to allow registration
             // "frozen" is the obfuscated field name (or "l" in some versions)
             try {
                 var frozenField = new ReflectionHelper.FieldHelper(MappedRegistry.class, "frozen", "l");
+                frozenState = frozenField.field;
+                wasFrozen = frozenState.getBoolean(registryWritable);
                 frozenField.field.set(registryWritable, false);
                 logger.info("Unfreezing biome registry...");
             } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
@@ -85,22 +89,21 @@ public class CustomBiomeHandler {
                 }
             }
 
-            // Refreeze the registry
-            try {
-                var frozenField = new ReflectionHelper.FieldHelper(MappedRegistry.class, "frozen", "l");
-                frozenField.field.set(registryWritable, true);
-                logger.info("Freezing biome registry");
-            } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-                logger.warning("Failed to refreeze biome registry: " + e.getMessage());
-                e.printStackTrace();
-            }
-
             logger.info("Successfully registered " + successCount + " / " +
                        this.biomeRegistry.size() + " custom biomes to Minecraft");
 
         } catch (Exception e) {
             logger.severe("Failed to register custom biomes: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            // Also restore the registry when template lookup or registration fails.
+            if (frozenState != null && registryWritable != null) {
+                try {
+                    frozenState.setBoolean(registryWritable, wasFrozen);
+                } catch (IllegalAccessException e) {
+                    throw new IllegalStateException("Cannot restore biome registry frozen state", e);
+                }
+            }
         }
     }
 

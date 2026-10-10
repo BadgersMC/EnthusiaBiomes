@@ -34,7 +34,7 @@ public class RegistryCheckCommand implements CommandExecutor {
             String fullKey = namespace + ":" + biomeId;
 
             boolean found = false;
-            for (org.bukkit.block.Biome biome : org.bukkit.block.Biome.values()) {
+            for (org.bukkit.block.Biome biome : org.bukkit.Registry.BIOME) {
                 if (biome.getKey().toString().equals(fullKey)) {
                     found = true;
                     foundCount++;
